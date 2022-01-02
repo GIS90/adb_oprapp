@@ -1,0 +1,17 @@
+SERVER:
+  NAME: ADB_OPRAPP
+  VERSION: v1.0.0
+  DEBUG: True
+
+# developer parameters
+DEV:
+  IP: 192.168.3.2
+  PORT: 5555
+
+
+# log base config, contain folder、 level、 format、 filename prefix
+LOG:
+  LOG_DIR: log
+  LOG_LEVEL: debug
+  LOG_FORMATTER: '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s - %(message)s'
+  LOG_FILENAME_PREFIX: adb_wx
