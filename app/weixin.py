@@ -33,25 +33,25 @@ from operator import mod
 from deploy.adb_lib import Adb2Lib
 from deploy.ADB_PACKAGES import Packages as P
 from deploy.utils import die
-from deploy.config import DEV_IP
+from deploy.config import DEV_IP, DEV_PORT
 from deploy.logger import logger as LOG
 
 
 def send_hongbao(adb, money, message, count: int = 1) -> None:
-    adb.tap(1015, 1325)  # 点击+功能
-    for i in range(1, 10):
-        adb.tap(160, 1880)  # 红包
-        adb.tap(904, 373)  # 红包金额
-        adb.input(money or 0.1)  # 输入金额
-        adb.tap(535, 1260)  # 塞钱进红包
+    adb.tap(1015, 2290)  # 点击+功能
+    for i in range(1, 100):
+        adb.tap(160, 2038)  # 红包
+        adb.tap(975, 380)  # 红包金额
+        adb.input(money or 0.01)  # 输入金额
+        adb.tap(546, 1345)  # 塞钱进红包
         time.sleep(3)
         """开始输入密码"""
-        adb.tap(540, 2140)
-        adb.tap(900, 1660)
-        adb.tap(540, 2140)
-        adb.tap(900, 1820)
-        adb.tap(180, 1660)
-        adb.tap(540, 1820)
+        adb.tap(540, 2270)
+        adb.tap(887, 1807)
+        adb.tap(540, 2270)
+        adb.tap(896, 1807)
+        adb.tap(182, 1821)
+        adb.tap(540, 1959)
         time.sleep(3)
 
 
@@ -65,17 +65,18 @@ def send_text(adb, message, w=1) -> None:
 
 def main():
     adb = Adb2Lib()
-    is_ok, message = adb.connect(DEV_IP)
+    DEV = '%s:%s' % (DEV_IP, DEV_PORT)
+    is_ok, message = adb.connect(DEV)
     if not is_ok: die(message)
-    # if not adb.start_app(P.weixin):
-    #     LOG.error('ADB start app %s failure.' % P.weixin.get('china_name'))
+    if not adb.start_app(P.weixin):
+        LOG.error('ADB start app %s failure.' % P.weixin.get('china_name'))
     # send_text(adb, message='I love you', w=3)
-    send_hongbao(adb, money=0.1, message="", count=10)
+    send_hongbao(adb, money=0.01, message="", count=10)
 
 
 if __name__ == "__main__":
-    main()
     try:
+        main()
         RC = 0
     except:
         RC = 1
